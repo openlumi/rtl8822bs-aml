@@ -250,8 +250,7 @@ static __inline void PHYDM_DBG_F(PDM_ODM_T dm, int comp, char *fmt, ...)
 
 #define PHYDM_DBG(dm, comp, fmt, args...)			\
 	do {							\
-		struct dm_struct *__dm = (dm);			\
-		if ((comp) & __dm->debug_components) {		\
+		if ((comp) & dm->debug_components) {		\
 			RT_TRACE(((struct rtl_priv *)__dm->adapter),\
 				 COMP_PHYDM, DBG_DMESG,		\
 				 "[PHYDM] " fmt, ##args);	\
@@ -260,8 +259,7 @@ static __inline void PHYDM_DBG_F(PDM_ODM_T dm, int comp, char *fmt, ...)
 
 #define PHYDM_DBG_F(dm, comp, fmt, args...)			\
 	do {							\
-		struct dm_struct *__dm = (dm);			\
-		if ((comp) & __dm->debug_components) {		\
+		if ((comp) & dm->debug_components) {		\
 			RT_TRACE(((struct rtl_priv *)__dm->adapter),\
 				 COMP_PHYDM, DBG_DMESG, fmt, ##args);	\
 		}	\

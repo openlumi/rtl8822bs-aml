@@ -8,12 +8,16 @@ EXTRA_CFLAGS += -O1
 #EXTRA_CFLAGS += -Wshadow -Wpointer-arith -Wcast-qual -Wstrict-prototypes -Wmissing-prototypes
 
 EXTRA_CFLAGS += -Wno-unused-variable
+EXTRA_CFLAGS += -Wno-misleading-indentation
+EXTRA_CFLAGS += -Wno-address
 #EXTRA_CFLAGS += -Wno-unused-value
-#EXTRA_CFLAGS += -Wno-unused-label
+EXTRA_CFLAGS += -Wno-unused-label
 #EXTRA_CFLAGS += -Wno-unused-parameter
-#EXTRA_CFLAGS += -Wno-unused-function
+EXTRA_CFLAGS += -Wno-unused-function
 #EXTRA_CFLAGS += -Wno-unused
 #EXTRA_CFLAGS += -Wno-uninitialized
+#EXTRA_CFLAGS += -Wno-vla
+EXTRA_CFLAGS += -Wno-switch-unreachable
 
 GCC_VER_49 := $(shell echo `$(CC) -dumpversion | cut -f1-2 -d.` \>= 4.9 | bc )
 ifeq ($(GCC_VER_49),1)
@@ -2124,87 +2128,6 @@ KSRC := /Custom/Novatek/TCL/linux-3.8_header
 #KSRC := $(KERNELDIR)
 endif
 
-ifeq ($(CONFIG_PLATFORM_ARM_TCC8930_JB42), y)
-EXTRA_CFLAGS += -DCONFIG_LITTLE_ENDIAN
-# default setting for Android 4.1, 4.2
-EXTRA_CFLAGS += -DCONFIG_CONCURRENT_MODE
-EXTRA_CFLAGS += -DCONFIG_IOCTL_CFG80211 -DRTW_USE_CFG80211_STA_EVENT
-ARCH := arm
-CROSS_COMPILE := /home/android_sdk/Telechips/v13.05_r1-tcc-android-4.2.2_tcc893x-evm_build/prebuilts/gcc/linux-x86/arm/arm-eabi-4.6/bin/arm-eabi-
-KSRC := /home/android_sdk/Telechips/v13.05_r1-tcc-android-4.2.2_tcc893x-evm_build/kernel
-MODULE_NAME := wlan
-endif 
-
-ifeq ($(CONFIG_PLATFORM_RTL8197D), y)
-EXTRA_CFLAGS += -DCONFIG_BIG_ENDIAN -DCONFIG_PLATFORM_RTL8197D
-export DIR_LINUX=$(shell pwd)/../SDK/rlxlinux-sdk321-v50/linux-2.6.30
-ARCH ?= rlx
-CROSS_COMPILE:= $(DIR_LINUX)/../toolchain/rsdk-1.5.5-5281-EB-2.6.30-0.9.30.3-110714/bin/rsdk-linux-
-KSRC := $(DIR_LINUX)
-endif
-
-ifeq ($(CONFIG_PLATFORM_AML_S905), y)
-EXTRA_CFLAGS += -DCONFIG_PLATFORM_AML_S905
-EXTRA_CFLAGS += -DCONFIG_LITTLE_ENDIAN -fno-pic
-# default setting for Android
-EXTRA_CFLAGS += -DCONFIG_CONCURRENT_MODE
-EXTRA_CFLAGS += -DCONFIG_IOCTL_CFG80211
-EXTRA_CFLAGS += -DRTW_USE_CFG80211_STA_EVENT
-# default setting for Android 5.x and later
-EXTRA_CFLAGS += -DCONFIG_RADIO_WORK
-
-ifeq ($(CONFIG_SDIO_HCI), y)
-EXTRA_CFLAGS += -DCONFIG_PLATFORM_OPS
-_PLATFORM_FILES += platform/platform_aml_s905_sdio.o
-endif
-
-ARCH ?= arm64
-CROSS_COMPILE ?= /4.4_S905L_8822bs_compile/gcc-linaro-aarch64-linux-gnu-4.9-2014.09_linux/bin/aarch64-linux-gnu-
-ifndef KSRC
-KSRC := /4.4_S905L_8822bs_compile/common
-# To locate output files in a separate directory.
-KSRC += O=/4.4_S905L_8822bs_compile/KERNEL_OBJ
-endif
-
-ifeq ($(CONFIG_RTL8822B), y)
-ifeq ($(CONFIG_SDIO_HCI), y)
-CONFIG_RTL8822BS ?= m
-USER_MODULE_NAME := 8822bs
-endif
-endif
-
-endif
-
-ifeq ($(CONFIG_PLATFORM_ZTE_ZX296716), y)
-EXTRA_CFLAGS += -Wno-error=date-time
-EXTRA_CFLAGS += -DCONFIG_PLATFORM_ZTE_ZX296716
-EXTRA_CFLAGS += -DCONFIG_LITTLE_ENDIAN
-# default setting for Android
-EXTRA_CFLAGS += -DCONFIG_CONCURRENT_MODE
-EXTRA_CFLAGS += -DCONFIG_IOCTL_CFG80211
-EXTRA_CFLAGS += -DRTW_USE_CFG80211_STA_EVENT
-# default setting for Android 5.x and later
-#EXTRA_CFLAGS += -DCONFIG_RADIO_WORK
-
-ifeq ($(CONFIG_SDIO_HCI), y)
-# mark this temporarily
-#EXTRA_CFLAGS += -DCONFIG_PLATFORM_OPS
-#_PLATFORM_FILES += platform/platform_zte_zx296716_sdio.o
-endif
-
-ARCH ?= arm64
-CROSS_COMPILE ?=
-KSRC ?=
-
-ifeq ($(CONFIG_RTL8822B), y)
-ifeq ($(CONFIG_SDIO_HCI), y)
-CONFIG_RTL8822BS ?= m
-USER_MODULE_NAME := 8822bs
-endif
-endif
-
-endif
-
 ########### CUSTOMER ################################
 ifeq ($(CONFIG_CUSTOMER_HUAWEI_GENERAL), y)
 CONFIG_CUSTOMER_HUAWEI = y
@@ -2319,11 +2242,11 @@ ifeq ($(CONFIG_RTL8723B), y)
 $(MODULE_NAME)-$(CONFIG_MP_INCLUDED)+= core/rtw_bt_mp.o
 endif
 
-obj-$(CONFIG_RTL8723BU) := $(MODULE_NAME).o
+obj-$(CONFIG_RTL8723BS) := $(MODULE_NAME).o
 
 else
 
-export CONFIG_RTL8723BU = m
+export CONFIG_RTL8723BS = m
 
 all: modules
 

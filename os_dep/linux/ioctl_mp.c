@@ -42,7 +42,7 @@ int rtw_mp_write_reg(struct net_device *dev,
 	u32 addr, data;
 	int ret;
 	PADAPTER padapter = rtw_netdev_priv(dev);
-	char input[wrqu->length + 1];
+	char input[128];
 
 	_rtw_memset(input, 0, sizeof(input));
 
@@ -128,7 +128,7 @@ int rtw_mp_read_reg(struct net_device *dev,
 		    struct iw_request_info *info,
 		    struct iw_point *wrqu, char *extra)
 {
-	char input[wrqu->length + 1];
+	char input[128];
 	char *pch, *pnext;
 	char *width_str;
 	char width;
@@ -262,7 +262,7 @@ int rtw_mp_write_rf(struct net_device *dev,
 	u32 path, addr, data;
 	int ret;
 	PADAPTER padapter = rtw_netdev_priv(dev);
-	char input[wrqu->length];
+	char input[128];
 
 
 	_rtw_memset(input, 0, wrqu->length);
@@ -304,7 +304,7 @@ int rtw_mp_read_rf(struct net_device *dev,
 		   struct iw_request_info *info,
 		   struct iw_point *wrqu, char *extra)
 {
-	char input[wrqu->length];
+	char input[128];
 	char *pch, *pnext;
 	char data[20], tmp[20];
 	u32 path, addr, strtou;
@@ -420,7 +420,7 @@ int rtw_mp_rate(struct net_device *dev,
 		struct iw_point *wrqu, char *extra)
 {
 	u32 rate = MPT_RATE_1M;
-	u8		input[wrqu->length + 1];
+	u8		input[128];
 	PADAPTER padapter = rtw_netdev_priv(dev);
 	PMPT_CONTEXT		pMptCtx = &(padapter->mppriv.mpt_ctx);
 
@@ -470,7 +470,7 @@ int rtw_mp_channel(struct net_device *dev,
 
 	PADAPTER padapter = rtw_netdev_priv(dev);
 	HAL_DATA_TYPE	*pHalData	= GET_HAL_DATA(padapter);
-	u8		input[wrqu->length + 1];
+	u8		input[128];
 	u32	channel = 1;
 
 	_rtw_memset(input, 0, sizeof(input));
@@ -497,7 +497,7 @@ int rtw_mp_ch_offset(struct net_device *dev,
 {
 
 	PADAPTER padapter = rtw_netdev_priv(dev);
-	u8		input[wrqu->length + 1];
+	u8		input[128];
 	u32	ch_offset = 0;
 
 	_rtw_memset(input, 0, sizeof(input));
@@ -524,7 +524,7 @@ int rtw_mp_bandwidth(struct net_device *dev,
 	u32 bandwidth = 0, sg = 0;
 	PADAPTER padapter = rtw_netdev_priv(dev);
 	HAL_DATA_TYPE	*pHalData	= GET_HAL_DATA(padapter);
-	u8		input[wrqu->length];
+	u8		input[128];
 
 	if (copy_from_user(input, wrqu->pointer, wrqu->length))
 		return -EFAULT;
@@ -559,7 +559,7 @@ int rtw_mp_txpower_index(struct net_device *dev,
 {
 	PADAPTER padapter = rtw_netdev_priv(dev);
  	HAL_DATA_TYPE	*phal_data	= GET_HAL_DATA(padapter);
-	char input[wrqu->length + 1];
+	char input[128];
 	u32 rfpath;
 	u32 txpower_inx = 0;
 	char *pextra = extra;
@@ -609,7 +609,7 @@ int rtw_mp_txpower(struct net_device *dev,
 {
 	u32 idx_a = 0, idx_b = 0, idx_c = 0, idx_d = 0;
 	int MsetPower = 1;
-	u8		input[wrqu->length];
+	u8		input[128];
 
 	PADAPTER padapter = rtw_netdev_priv(dev);
 	PMPT_CONTEXT		pMptCtx = &(padapter->mppriv.mpt_ctx);
@@ -647,7 +647,7 @@ int rtw_mp_ant_tx(struct net_device *dev,
 		  struct iw_point *wrqu, char *extra)
 {
 	u8 i;
-	u8		input[wrqu->length + 1];
+	u8		input[128];
 	u16 antenna = 0;
 	PADAPTER padapter = rtw_netdev_priv(dev);
 	HAL_DATA_TYPE	*pHalData = GET_HAL_DATA(padapter);
@@ -701,7 +701,7 @@ int rtw_mp_ant_rx(struct net_device *dev,
 {
 	u8 i;
 	u16 antenna = 0;
-	u8		input[wrqu->length + 1];
+	u8		input[128];
 	PADAPTER padapter = rtw_netdev_priv(dev);
 	HAL_DATA_TYPE	*pHalData = GET_HAL_DATA(padapter);
 
@@ -917,7 +917,7 @@ int rtw_mp_disable_bt_coexist(struct net_device *dev,
 	PADAPTER padapter = (PADAPTER)rtw_netdev_priv(dev);
 
 #endif
-	u8 input[wrqu->data.length + 1];
+	u8 input[128];
 	u32 bt_coexist;
 
 	_rtw_memset(input, 0, sizeof(input));
@@ -955,7 +955,7 @@ int rtw_mp_arx(struct net_device *dev,
 {
 	int bStartRx = 0, bStopRx = 0, bQueryPhy = 0, bQueryMac = 0, bSetBssid = 0, bSetRxframe = 0;
 	int bmac_filter = 0, bmon = 0, bSmpCfg = 0;
-	u8		input[wrqu->length];
+	u8		input[128];
 	char *pch, *token, *tmp[2] = {0x00, 0x00};
 	u32 i = 0, jj = 0, kk = 0, cnts = 0, ret;
 	PADAPTER padapter = rtw_netdev_priv(dev);
@@ -1145,7 +1145,7 @@ int rtw_mp_pwrtrk(struct net_device *dev,
 	u32 thermal;
 	s32 ret;
 	PADAPTER padapter = rtw_netdev_priv(dev);
-	u8		input[wrqu->length];
+	u8		input[128];
 
 	if (copy_from_user(input, wrqu->pointer, wrqu->length))
 		return -EFAULT;
@@ -1183,7 +1183,7 @@ int rtw_mp_psd(struct net_device *dev,
 	       struct iw_point *wrqu, char *extra)
 {
 	PADAPTER padapter = rtw_netdev_priv(dev);
-	u8		input[wrqu->length + 1];
+	u8		input[128];
 
 	_rtw_memset(input, 0, sizeof(input));
 	if (copy_from_user(input, wrqu->pointer, wrqu->length))
@@ -1338,7 +1338,7 @@ int rtw_mp_dump(struct net_device *dev,
 		struct iw_point *wrqu, char *extra)
 {
 	struct mp_priv *pmp_priv;
-	u8		input[wrqu->length];
+	u8		input[128];
 	PADAPTER padapter = rtw_netdev_priv(dev);
 
 	pmp_priv = &padapter->mppriv;
@@ -1362,7 +1362,7 @@ int rtw_mp_phypara(struct net_device *dev,
 
 	PADAPTER padapter = rtw_netdev_priv(dev);
 	HAL_DATA_TYPE	*pHalData	= GET_HAL_DATA(padapter);
-	char	input[wrqu->length];
+	char	input[128];
 	u32		invalxcap = 0, ret = 0, bwrite_xcap = 0, hwxtaladdr = 0;
 	u16		pgval;
 
@@ -1417,7 +1417,7 @@ int rtw_mp_SetRFPath(struct net_device *dev,
 		     struct iw_point *wrqu, char *extra)
 {
 	PADAPTER padapter = rtw_netdev_priv(dev);
-	char	input[wrqu->length];
+	char	input[128];
 	int		bMain = 1, bTurnoff = 1;
 #ifdef CONFIG_ANTENNA_DIVERSITY
 	u8 ret = _TRUE;
@@ -1468,7 +1468,8 @@ int rtw_mp_switch_rf_path(struct net_device *dev,
 {
 	PADAPTER padapter = rtw_netdev_priv(dev);
 	struct mp_priv *pmp_priv;
-	char	input[wrqu->length];
+	//char	input[wrqu->length];
+	char	input[128];
 	int		bwlg = 1, bwla = 1, btg = 1, bbt=1;
 	u8 ret = 0;
 
@@ -1517,7 +1518,8 @@ int rtw_mp_QueryDrv(struct net_device *dev,
 		    union iwreq_data *wrqu, char *extra)
 {
 	PADAPTER padapter = rtw_netdev_priv(dev);
-	char	input[wrqu->data.length];
+	//char	input[wrqu->data.length];
+	char	input[128];
 	int	qAutoLoad = 1;
 
 	PHAL_DATA_TYPE pHalData = GET_HAL_DATA(padapter);
@@ -1546,7 +1548,7 @@ int rtw_mp_PwrCtlDM(struct net_device *dev,
 		    struct iw_point *wrqu, char *extra)
 {
 	PADAPTER padapter = rtw_netdev_priv(dev);
-	u8		input[wrqu->length];
+	u8		input[128];
 	int		bstart = 1;
 
 	if (copy_from_user(input, wrqu->pointer, wrqu->length))
@@ -2617,7 +2619,7 @@ int rtw_mp_link(struct net_device *dev,
 {
 	PADAPTER padapter = rtw_netdev_priv(dev);
 	struct mp_priv *pmp_priv;
-	char	input[wrqu->length];
+	char	input[128];
 	int		bgetrxdata = 0, btxdata = 0, bsetbt = 0;
 	u8 err = 0;
 	u32 i = 0, datalen = 0,jj, kk, waittime = 0;

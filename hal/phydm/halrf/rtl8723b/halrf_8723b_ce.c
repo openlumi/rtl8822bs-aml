@@ -2186,7 +2186,7 @@ void phy_iq_calibrate_8723b(void *dm_void, boolean is_recovery)
 	is13simular = false;
 
 	for (i = 0; i < 3; i++) {
-		_phy_iq_calibrate_8723b(dm, result, i, ~(*dm->is_1_antenna), *dm->rf_default_path);
+		_phy_iq_calibrate_8723b(dm, result, i, ~(u8)(*dm->is_1_antenna), *dm->rf_default_path);
 		if (i == 1) {
 			is12simular = phy_simularity_compare_8723b(dm, result, 0, 1);
 			if (is12simular) {
